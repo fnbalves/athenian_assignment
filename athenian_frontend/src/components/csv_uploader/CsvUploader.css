@@ -1,0 +1,27 @@
+h3 {
+    color: #2596be;
+}
+
+#svs_uploader {
+    width: 30%;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: #2596be 2px solid;
+    border-radius: 5px;
+    height: auto;
+}
+
+#progress_tracker {
+    width: 100%;
+}
+
+#progress_bar {
+    background-color: #2596be;
+    border-radius: 5px;
+    height: 0.5rem;
+    margin-bottom: 10px;
+};

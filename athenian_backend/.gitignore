@@ -1,0 +1,4 @@
+scripts/sensible_vars.bat
+**/*.pyc
+**/__pycache__/
+csv_files/*.csv

@@ -1,0 +1,13 @@
+Django==4.1
+djangorestframework
+django-cors-headers
+redis==3.5.3
+asyncio==3.4.3
+psycopg2==2.9.5
+Werkzeug==2.2.3
+redis==3.5.3
+pandas
+numpy
+drf-spectacular
+adrf
+uvicorn

@@ -1,0 +1,422 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 0.0.0
+paths:
+  /api/pr_data/{id}:
+    get:
+      operationId: api_pr_data_retrieve
+      description: "Endpoint used to get the raw data obtained from a CSV file\n \
+        \       "
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: |-
+          Id of the document from which we will extract the data.
+                                           Such id is extracted from the /upload endpoint
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RawDataResponse'
+          description: Data obtained
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RawDataResponse'
+          description: Document not found
+  /api/schema/:
+    get:
+      operationId: api_schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/sharing/create/{id}:
+    post:
+      operationId: api_sharing_create_create
+      description: "Endpoint used to get a sharing key for a document id\n        "
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: |-
+          Id of the document we wish to get a sharing key.
+                                           Such id is extracted from the /upload endpoint
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharingKeyResponse'
+          description: Data obtained
+  /api/sharing/recover/{uuid}:
+    get:
+      operationId: api_sharing_recover_retrieve
+      description: "Endpoint used to get the document id from an uuid \n        (PD:\
+        \ This is a very simple sharing funcionality, since I did not implement user\
+        \ authentication.\n        On way to improve it regardless is by making the\
+        \ other endpoints able to receive the uuid to fetch data. \n        This way\
+        \ the frontend client that uses the\n        uuid would never have access\
+        \ to the document id)\n        "
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+        description: |-
+          The document's sharing uuid. Such uuid
+                                           can be fetched with the /sharing/create endpoint
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharingDataResponse'
+          description: Data obtained
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharingDataResponse'
+          description: Key not found. The status field will say that
+  /api/statistics/{id}:
+    get:
+      operationId: api_statistics_retrieve
+      description: "Endpoint used to get the statistics by team extracted from a CSV\
+        \ file\n        "
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: |-
+          Id of the document from which we will extract the statistics.
+                                           Such id is extracted from the /upload endpoint.
+                                           The statistics will be returned as a list. Each element corresponds
+                                           to a team and there is also a "team" called "all_data" that
+                                           represents the statistics of the entire file without segmentating by team
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Statistics'
+          description: Data obtained
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statistics'
+          description: Document not found
+  /api/upload:
+    post:
+      operationId: api_upload_create
+      description: "Endpoint used to upload a CSV file and get as response its id\n\
+        \        at the database, along with information regarding it's compliance\
+        \ with the \n        service\n        "
+      tags:
+      - api
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+          description: Csv saved
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+          description: "Document invalid. \n                                 More\
+            \ information on the status field and on the\n                       \
+            \          compliance fields."
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+          description: Internal server error.
+components:
+  schemas:
+    RawDataResponse:
+      type: object
+      properties:
+        date:
+          type: array
+          items:
+            type: string
+            format: date
+        team:
+          type: array
+          items:
+            type: string
+        review_time:
+          type: array
+          items:
+            type: number
+            format: double
+        merge_time:
+          type: array
+          items:
+            type: number
+            format: double
+      required:
+      - date
+      - merge_time
+      - review_time
+      - team
+    SharingDataResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        document_id:
+          type: integer
+      required:
+      - document_id
+      - status
+    SharingKeyResponse:
+      type: object
+      properties:
+        uuid:
+          type: string
+      required:
+      - uuid
+    Statistics:
+      type: object
+      properties:
+        team:
+          type: string
+        mean_val:
+          type: number
+          format: double
+        max_val:
+          type: number
+          format: double
+        min_val:
+          type: number
+          format: double
+        std_val:
+          type: number
+          format: double
+        median_val:
+          type: number
+          format: double
+      required:
+      - max_val
+      - mean_val
+      - median_val
+      - min_val
+      - std_val
+      - team
+    UploadResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        document_id:
+          type: integer
+        compliance_columns_valid:
+          type: boolean
+        compliance_not_empty:
+          type: boolean
+      required:
+      - compliance_columns_valid
+      - compliance_not_empty
+      - document_id
+      - status
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

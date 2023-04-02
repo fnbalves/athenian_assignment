@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - "POSTGRES_PASSWORD=password"
+      - "POSTGRES_USER=user"
+      - "POSTGRES_DB=story_tracking"
+  athenian_backend:
+    image: athenian_backend:latest
+    build: athenian_backend
+    ports:
+      - 8000:8000
+    environment:
+      - "DB_ADDRESS=db"
+      - "DB_PORT=5432"
+      - "DB_USERNAME=user"
+      - "DB_PASSWORD=password"
+      - "REDIS_ADDRESS=redis"
+  athenian_frontend:
+    image: athenian_frontend:latest
+    build: athenian_frontend
+    ports:
+      - 3000:3000

@@ -1,0 +1,15 @@
+#statistics_card {
+    border: #2596be 2px solid;
+    border-radius: 5px;
+    height: auto;
+    margin: 0.5em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stats_name {
+    font-weight: bold;
+}

@@ -1,0 +1,27 @@
+#all_statistics {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+#all_data_holder {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(2, 1fr);   
+}
+
+#by_team {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+#team_data_holder {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+#team_name {
+    text-align: center;
+}
